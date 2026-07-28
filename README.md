@@ -1,31 +1,178 @@
-Crackers Billing Software
+# 🎆 Crackers Billing Software
 
-Crackers Billing Software is a desktop application developed using Electron.js, HTML, CSS, JavaScript, Node.js, SQLite, and PDFKit. It is designed to simplify billing, customer management, and inventory tracking for crackers shops by providing a fast, user-friendly, and completely offline billing experience.
+A modern desktop billing application built using **Electron.js**, **Node.js**, **SQLite**, **HTML**, **CSS**, and **JavaScript**. The application is designed for crackers shops to simplify product management, customer management, billing, inventory tracking, and PDF bill generation with complete offline support.
 
-The application allows shop owners to efficiently manage products, customers, and billing operations while automatically updating stock after each sale. It features a clean and intuitive interface with quick product search, live suggestions, bill history, and PDF bill generation, making day-to-day billing simple and efficient.
+---
 
-Features
-🔐 Secure Login System
-📦 Product Management (Add, Edit, Delete, Search)
-👥 Customer Management
-🧾 Smart Billing System
-🔍 Search Products by Product Code or Product Name
-📋 Live Product Suggestions While Typing
-🛒 Add, Edit, and Remove Bill Items Before Saving
-💰 Automatic Bill Total Calculation
-📄 Unique Bill Number Generation
-📚 Bill History Management
-📦 Automatic Stock Update After Billing
-🖨️ PDF Bill Generation
-💻 Offline Desktop Application with SQLite Database
-Technologies Used
-Electron.js
-HTML5
-CSS3
-JavaScript (ES6)
-Node.js
-SQLite3
-PDFKit
-Purpose
+## 📖 Overview
 
-The primary objective of this project is to provide a reliable, efficient, and offline billing solution for crackers shops. It helps streamline billing, maintain accurate inventory records, manage customer information, and generate printable PDF bills. Built with Electron.js and SQLite, the application offers a responsive desktop experience without requiring an internet connection. It is suitable for small and medium-sized businesses and also serves as a practical learning project for desktop application development using modern web technologies.
+Crackers Billing Software is an offline desktop application that enables shop owners to efficiently manage their day-to-day billing operations. It provides a user-friendly interface for managing products, customers, and bills while automatically updating inventory after every sale.
+
+The software is lightweight, fast, and stores all data locally using SQLite, making it ideal for small and medium-sized businesses.
+
+---
+
+## ✨ Features
+
+- 🔐 Secure Login System
+- 📦 Product Management
+  - Add Products
+  - Update Products
+  - Delete Products
+  - Search Products
+- 👥 Customer Management
+- 🧾 Smart Billing System
+- 🔍 Search Products by Product Code or Product Name
+- 📋 Live Product Suggestions While Typing
+- 🛒 Add, Edit, and Remove Bill Items Before Saving
+- 💰 Automatic Bill Total Calculation
+- 📄 Auto-Generated Bill Numbers
+- 📚 Bill History Management
+- 📦 Automatic Stock Update After Billing
+- 🖨️ PDF Bill Generation
+- 💻 Offline Desktop Application
+- 🗄️ SQLite Database Integration
+
+---
+
+## 🛠️ Technologies Used
+
+| Technology | Purpose |
+|------------|----------|
+| Electron.js | Desktop Application Framework |
+| Node.js | Backend Runtime |
+| SQLite3 | Local Database |
+| HTML5 | User Interface |
+| CSS3 | Styling |
+| JavaScript (ES6) | Application Logic |
+| PDFKit | PDF Bill Generation |
+
+---
+
+## 📂 Project Structure
+
+```text
+CrackersBilling/
+│
+├── assets/
+│   ├── css/
+│   ├── js/
+│   └── images/
+│
+├── backend/
+│   └── db.js
+│
+├── database/
+│   └── crackers.db
+│
+├── pages/
+│   ├── login.html
+│   ├── dashboard.html
+│   ├── products.html
+│   ├── customers.html
+│   ├── billing.html
+│   └── bill-history.html
+│
+├── preload.js
+├── main.js
+├── package.json
+└── README.md
+```
+
+---
+
+## 🚀 Installation
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/your-username/CrackersBilling.git
+```
+
+### Navigate to the Project
+
+```bash
+cd CrackersBilling
+```
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+### Run the Application
+
+```bash
+npm start
+```
+
+---
+
+## 💡 How It Works
+
+1. Login to the application.
+2. Add products and maintain inventory.
+3. Add customer details.
+4. Create bills by selecting products.
+5. Automatically calculate totals.
+6. Save and print bills.
+7. View previously generated bills.
+8. Stock is updated automatically after every transaction.
+
+---
+
+## 🎯 Future Enhancements
+
+- Barcode Scanner Support
+- GST Invoice Generation
+- Sales Reports
+- Daily & Monthly Reports
+- Backup & Restore Database
+- User Roles & Permissions
+- Dashboard Analytics
+- Excel Export
+- Email & WhatsApp Bill Sharing
+- Dark Mode
+
+---
+
+## 📸 Screenshots
+
+> Add screenshots of your application here.
+
+- Login Page
+- Dashboard
+- Products Page
+- Customers Page
+- Billing Page
+- Bill History
+- PDF Bill
+
+---
+
+## 🤝 Contributing
+
+Contributions, feature suggestions, and bug reports are welcome.
+
+1. Fork the repository.
+2. Create a new branch.
+3. Commit your changes.
+4. Push to your branch.
+5. Open a Pull Request.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+## 👨‍💻 Author
+
+**S. Sivasurya**
+
+Artificial Intelligence and Data Science Student
+
+Desktop Application Developer | Electron.js | JavaScript | SQLite | Node.js
