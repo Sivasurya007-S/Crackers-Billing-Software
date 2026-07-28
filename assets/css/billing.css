@@ -1,0 +1,35 @@
+body{
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+input, button{
+    padding: 8px;
+    margin: 5px;
+}
+
+#suggestions{
+    width: 350px;
+    border: 1px solid #ccc;
+    background: white;
+    position: absolute;
+    z-index: 1000;
+}
+
+#suggestions div{
+    padding: 8px;
+    cursor: pointer;
+}
+
+#suggestions div:hover{
+    background: #eee;
+}
+
+table{
+    border-collapse: collapse;
+}
+
+th, td{
+    padding: 8px;
+    text-align: center;
+}

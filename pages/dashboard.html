@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>🎆 Sparkler - Premium Crackers Billing</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script>
+        if (!window.electronAPI) {
+            console.warn("Electron API not detected. Injecting browser mockup.");
+            window.electronAPI = {
+                getProducts: async () => JSON.parse(localStorage.getItem('mock_products') || '[]'),
+                addProduct: async (p) => {
+                    const list = JSON.parse(localStorage.getItem('mock_products') || '[]');
+                    p.id = Date.now();
+                    list.push(p);
+                    localStorage.setItem('mock_products', JSON.stringify(list));
+                    return true;
+                },
+                deleteProduct: async (id) => {
+                    const list = JSON.parse(localStorage.getItem('mock_products') || '[]');
+                    localStorage.setItem('mock_products', JSON.stringify(list.filter(p => p.id != id)));
+                    return true;
+                },
+                updateProduct: async (p) => {
+                    const list = JSON.parse(localStorage.getItem('mock_products') || '[]');
+                    const idx = list.findIndex(item => item.id == p.id);
+                    if (idx > -1) list[idx] = p;
+                    localStorage.setItem('mock_products', JSON.stringify(list));
+                    return true;
+                },
+                getCustomers: async () => JSON.parse(localStorage.getItem('mock_customers') || '[]'),
+                addCustomer: async (c) => {
+                    const list = JSON.parse(localStorage.getItem('mock_customers') || '[]');
+                    c.id = Date.now();
+                    list.push(c);
+                    localStorage.setItem('mock_customers', JSON.stringify(list));
+                    return true;
+                },
+                deleteCustomer: async (id) => {
+                    const list = JSON.parse(localStorage.getItem('mock_customers') || '[]');
+                    localStorage.setItem('mock_customers', JSON.stringify(list.filter(c => c.id != id)));
+                    return true;
+                },
+                getBills: async () => JSON.parse(localStorage.getItem('mock_bills') || '[]'),
+                saveBill: async (b) => {
+                    const list = JSON.parse(localStorage.getItem('mock_bills') || '[]');
+                    const newBill = {
+                        id: Date.now(),
+                        bill_no: 'CRK' + new Date().getFullYear() + '-' + Date.now(),
+                        bill_date: new Date().toISOString(),
+                        customer_id: Number(b.customerId),
+                        subtotal: b.total,
+                        discount: 0,
+                        grand_total: b.total,
+                        customer_name: ''
+                    };
+
+                    // Get customer name
+                    const custs = JSON.parse(localStorage.getItem('mock_customers') || '[]');
+                    const foundCust = custs.find(c => c.id == b.customerId);
+                    if (foundCust) newBill.customer_name = foundCust.customer_name;
+
+                    list.push(newBill);
+                    localStorage.setItem('mock_bills', JSON.stringify(list));
+                    localStorage.setItem('mock_bill_items_' + newBill.id, JSON.stringify(b.items));
+
+                    // Update mock stock levels
+                    const prods = JSON.parse(localStorage.getItem('mock_products') || '[]');
+                    b.items.forEach(item => {
+                        const prodObj = prods.find(p => p.id == item.productId);
+                        if (prodObj) prodObj.stock = Math.max(0, prodObj.stock - item.qty);
+                    });
+                    localStorage.setItem('mock_products', JSON.stringify(prods));
+
+                    return { success: true, billId: newBill.id, billNo: newBill.bill_no };
+                },
+                deleteBill: async (id) => {
+                    const list = JSON.parse(localStorage.getItem('mock_bills') || '[]');
+                    localStorage.setItem('mock_bills', JSON.stringify(list.filter(b => b.id != id)));
+                    return true;
+                },
+                getBillDetails: async (id) => {
+                    const items = JSON.parse(localStorage.getItem('mock_bill_items_' + id) || '[]');
+                    return items.map(item => ({
+                        product_id: item.productId,
+                        product_name: item.productName,
+                        quantity: item.qty,
+                        rate: item.rate,
+                        amount: item.amount
+                    }));
+                },
+                printBill: async (id) => { console.log('Mock print PDF for bill ID', id); return true; },
+                getDashboardStats: async () => {
+                    const products = JSON.parse(localStorage.getItem('mock_products') || '[]');
+                    const customers = JSON.parse(localStorage.getItem('mock_customers') || '[]');
+                    const bills = JSON.parse(localStorage.getItem('mock_bills') || '[]');
+
+                    const today = new Date().toISOString().substring(0, 10);
+                    const todayBillsList = bills.filter(b => b.bill_date.startsWith(today));
+
+                    return {
+                        todaySales: todayBillsList.reduce((acc, b) => acc + b.grand_total, 0),
+                        todayBills: todayBillsList.length,
+                        totalCustomers: customers.length,
+                        totalProducts: products.length,
+                        lowStockProducts: products.filter(p => p.stock < 10).length,
+                        recentBills: bills.slice(-5).reverse()
+                    };
+                }
+            };
+
+            // Seed initial mock products if empty
+            if (!localStorage.getItem('mock_products')) {
+                localStorage.setItem('mock_products', JSON.stringify([
+                    { id: 1, product_code: 'CRK-SPK10', product_name: 'Sparklers 10cm', category: 'Sparklers', rate: 120.00, stock: 50 },
+                    { id: 2, product_code: 'CRK-CHAK', product_name: 'Ground Chakkars Special', category: 'Chakkars', rate: 180.00, stock: 8 },
+                    { id: 3, product_code: 'CRK-FLW', product_name: 'Flower Pots Giant', category: 'Flower Pots', rate: 250.00, stock: 25 },
+                    { id: 4, product_code: 'CRK-ROCK', product_name: 'Rockets Deluxe', category: 'Rockets', rate: 350.00, stock: 0 }
+                ]));
+            }
+            // Seed initial mock customers if empty
+            if (!localStorage.getItem('mock_customers')) {
+                localStorage.setItem('mock_customers', JSON.stringify([
+                    { id: 1, customer_name: 'Amit Sharma', phone: '9876543210', address: 'Delhi NCR' },
+                    { id: 2, customer_name: 'Priya Patel', phone: '9123456789', address: 'Mumbai Heights' }
+                ]));
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <span style="font-size: 1.8rem; filter: drop-shadow(0 0 5px var(--primary-color));">🎆</span>
+                <h2>Sparkler Billing</h2>
+            </div>
+
+            <ul class="sidebar-nav">
+                <li class="sidebar-item active" id="nav-dashboard-home"
+                    onclick="loadTab('dashboard-home.html', 'nav-dashboard-home', 'Dashboard')">
+                    <span class="nav-icon">📊</span> Dashboard
+                </li>
+                <li class="sidebar-item" id="nav-billing"
+                    onclick="loadTab('billing.html', 'nav-billing', 'Create Invoice')">
+                    <span class="nav-icon">🧾</span> Billing
+                </li>
+                <li class="sidebar-item" id="nav-products"
+                    onclick="loadTab('products.html', 'nav-products', 'Manage Products')">
+                    <span class="nav-icon">📦</span> Products
+                </li>
+                <li class="sidebar-item" id="nav-customers"
+                    onclick="loadTab('customers.html', 'nav-customers', 'Manage Customers')">
+                    <span class="nav-icon">👥</span> Customers
+                </li>
+                <li class="sidebar-item" id="nav-bill-history"
+                    onclick="loadTab('bill-history.html', 'nav-bill-history', 'Invoice History')">
+                    <span class="nav-icon">📜</span> Invoice History
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div
+                    style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: #10b981; margin-bottom: 0.25rem;">
+                    <span
+                        style="display: inline-block; width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></span>
+                    SQLite Connected
+                </div>
+                <div>v1.0.0 • Sparkler Offline</div>
+            </div>
+        </div>
+
+        <!-- Main Content Panel -->
+        <div class="main-content">
+            <header class="content-header">
+                <div>
+                    <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">
+                        System Console</p>
+                    <h2 id="current-tab-title" style="margin-bottom: 0;">Dashboard</h2>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1.5rem;">
+                    <!-- Real-time Clock -->
+                    <div style="text-align: right;">
+                        <div id="system-time" style="font-weight: 700; font-size: 1.1rem; color: var(--text-main);">
+                            00:00:00 AM</div>
+                        <div id="system-date" style="font-size: 0.75rem; color: var(--text-muted);">Monday, 1 Jan 2026
+                        </div>
+                    </div>
+                    <!-- Profile Indicator -->
+                    <div
+                        style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 1rem; background: rgba(255,255,255,0.03); border: 1px solid var(--border-light); border-radius: 50px;">
+                        <span style="font-size: 1.2rem;">🧑‍💻</span>
+                        <span style="font-weight: 600; font-size: 0.9rem;">Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-body" id="content">
+                <!-- Dynamic Sub-pages load here -->
+                <div style="text-align: center; color: var(--text-muted); padding-top: 5rem;">Loading System Modules...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/dashboard.js"></script>
+
+</body>
+
+</html>

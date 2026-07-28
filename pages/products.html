@@ -1,0 +1,74 @@
+<div class="split-container">
+    <!-- Add/Edit Product Panel -->
+    <div class="card">
+        <h3 id="formTitle" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span>➕</span> Add Product
+        </h3>
+
+        <input type="hidden" id="productId">
+
+        <div class="form-group">
+            <label for="code">Product Code</label>
+            <input type="text" id="code" placeholder="e.g. CRK-101">
+        </div>
+
+        <div class="form-group">
+            <label for="name">Product Name</label>
+            <input type="text" id="name" placeholder="e.g. Sparklers 10cm">
+        </div>
+
+        <div class="form-group">
+            <label for="category">Category</label>
+            <input type="text" id="category" placeholder="e.g. Sparklers, Chakkars">
+        </div>
+
+        <div class="form-group">
+            <label for="rate">Rate (₹)</label>
+            <input type="number" id="rate" placeholder="0.00" step="0.01">
+        </div>
+
+        <div class="form-group">
+            <label for="stock">Stock Quantity</label>
+            <input type="number" id="stock" placeholder="0">
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+            <button onclick="saveOrUpdateProduct()" style="flex: 1;">Save Product</button>
+            <button onclick="clearForm()" class="secondary" style="padding: 0.75rem 1.25rem;">Clear</button>
+        </div>
+    </div>
+
+    <!-- Product Directory Listing -->
+    <div class="card" style="padding: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h3>📦 Product Directory</h3>
+            <div style="width: 250px;">
+                <input type="text" id="search" placeholder="🔍 Search products..." onkeyup="loadProducts()"
+                    style="margin: 0;">
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 60px;">ID</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Rate</th>
+                        <th>Stock</th>
+                        <th style="width: 160px; text-align: center;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="productTable">
+                    <tr>
+                        <td colspan="7" style="text-align: center; color: var(--text-muted);">Loading products...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="../assets/js/products.js"></script>

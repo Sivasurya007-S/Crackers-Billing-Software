@@ -1,0 +1,19 @@
+{
+  "name": "crackersbilling",
+  "version": "1.0.0",
+  "description": "Offline Crackers Billing Software",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron . --no-sandbox"
+  },
+  "author": "Sivasurya",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^37.2.6",
+    "pdfkit": "^0.18.0",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "electron-reload": "^2.0.0-alpha.1"
+  }
+}
